@@ -27,10 +27,20 @@ const showSuccess = (input) => {
     formControl.className = 'form-control success';
 }
 
-const validateEmail = (email) => {
-    return email.match(
-      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    );
+const validateEmail = (input) => {
+    
+    // const isValid = email.match(
+    //   /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    // );
+
+    const isValid= /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
+
+    if(isValid.test(input.value.trim())){
+        showSuccess(input)
+    }else{
+        showError(input, 'Email is not valid');
+    }
 };
 
 //check required inputs
@@ -38,14 +48,15 @@ const checkRequired = (inputArr) => {
     inputArr.forEach(input => {
         input.value.trim() === '' ? showError(input, `${getFieldName(input)} is required`) : showSuccess(input)
     });
+    
 }
 
 
 // check input length
 const checkLength = (input, min, max) => {
-    input.value.length < min ? showError(input, `${getFieldName(input)} must be atleast 3 characters`)
+    input.value.length < min ? showError(input, `${getFieldName(input)} must be atleast ${min} characters`)
                              : input.value.length > max 
-                             ? showError(input, `${getFieldName(input)} must be less than 15 characters`)
+                             ? showError(input, `${getFieldName(input)} must be less than ${max} characters`)
                              : showSuccess(input);
 }
 
